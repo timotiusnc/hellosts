@@ -31,12 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/design").hasRole("USER")
-                .antMatchers("admin", "/h2_console/**", "h2-console/**", "console/**").permitAll()
+                .antMatchers("/design/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
+                .headers().frameOptions().sameOrigin()
                 .and()
-                .httpBasic();
+                .formLogin().permitAll()
+                .and().httpBasic()
+                .and()
+                .csrf().disable();
     }
 }

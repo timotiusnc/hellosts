@@ -1,6 +1,5 @@
 package id.gdplabs.hellosts.security;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +12,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
-@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -31,10 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        log.info("WOW " + http.toString());
         http
                 .authorizeRequests()
-                    .antMatchers("/design").hasRole("USER")
+                .antMatchers("/design").hasRole("USER")
+                .antMatchers("admin", "/h2_console/**", "h2-console/**", "console/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
